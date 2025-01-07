@@ -416,7 +416,7 @@
             },
             {
               "name": "repo.path",
-              "value": "n8n_Backup/"
+              "value": "Workflows/"
             }
           ]
         },
@@ -463,6 +463,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-01-07T23:02:48.000Z",
-  "versionId": "db44f792-12a5-42c4-9e80-1e00bbe2ae8f"
+  "updatedAt": "2025-01-07T23:29:28.000Z",
+  "versionId": "da436b30-d149-48fa-82f7-2904b9e58e5e"
 }
