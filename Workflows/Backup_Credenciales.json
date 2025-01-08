@@ -118,7 +118,7 @@
       "main": [
         [
           {
-            "node": "Execute Command",
+            "node": "Variables",
             "type": "main",
             "index": 0
           }
@@ -169,7 +169,7 @@
       "main": [
         [
           {
-            "node": "Execute Command",
+            "node": "Variables",
             "type": "main",
             "index": 0
           }
@@ -191,7 +191,7 @@
       "main": [
         [
           {
-            "node": "Get file data",
+            "node": "Execute Command",
             "type": "main",
             "index": 0
           }
@@ -202,28 +202,28 @@
       "main": [
         [
           {
-            "node": "No Operation, do nothing",
+            "node": "Fin",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Variables",
-            "type": "main",
-            "index": 0
-          },
-          {
             "node": "Merge Items",
             "type": "main",
             "index": 1
+          },
+          {
+            "node": "Get file data",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
     }
   },
-  "createdAt": "2025-01-07T23:45:33.379Z",
-  "id": "6AyGrKEpJOwt5F7Z",
+  "createdAt": "2025-01-08T00:31:51.349Z",
+  "id": "cT7C9qb0EBhcc6ZV",
   "meta": {
     "templateCredsSetupCompleted": true
   },
@@ -231,11 +231,11 @@
   "nodes": [
     {
       "parameters": {},
-      "id": "2e2bb2ef-0dfc-4f38-a1a9-55f89ab4a85c",
+      "id": "b1528bdc-6ae2-488b-8224-05f1a08cf26f",
       "name": "On clicking 'execute'",
       "type": "n8n-nodes-base.manualTrigger",
       "position": [
-        100,
+        340,
         1440
       ],
       "typeVersion": 1
@@ -245,12 +245,12 @@
         "url": "={{ $json.download_url }}",
         "options": {}
       },
-      "id": "c9db4a11-7030-44da-bcc7-8d1a142b4146",
+      "id": "53c33dd5-fcff-4885-a6f5-f3d61731323a",
       "name": "Get File",
       "type": "n8n-nodes-base.httpRequest",
       "position": [
-        1840,
-        1200
+        1820,
+        1260
       ],
       "typeVersion": 4.2
     },
@@ -289,22 +289,22 @@
         },
         "options": {}
       },
-      "id": "b81f284e-3173-420e-959f-3f25983dc479",
+      "id": "837983d5-f37f-44fe-84d2-bf56cd28fb3b",
       "name": "If file too large",
       "type": "n8n-nodes-base.if",
       "position": [
-        1560,
-        1281.7134561426114
+        1640,
+        1360
       ],
       "typeVersion": 2
     },
     {
       "parameters": {},
-      "id": "f9100fdb-5ab3-436f-a1e5-59e4b22fa7fb",
+      "id": "713346bb-db63-4765-a281-7d95906cf41c",
       "name": "Merge Items",
       "type": "n8n-nodes-base.merge",
       "position": [
-        2080,
+        1980,
         1540
       ],
       "typeVersion": 2
@@ -313,11 +313,11 @@
       "parameters": {
         "jsCode": "const orderJsonKeys = (jsonObj) => {\n  const ordered = {};\n  Object.keys(jsonObj).sort().forEach(key => {\n    ordered[key] = jsonObj[key];\n  });\n  return ordered;\n}\n\n// Check if file returned with content\nif (Object.keys($input.all()[0].json).includes(\"content\")) {\n  // Decode base64 content and parse JSON\n  const origWorkflow = JSON.parse(Buffer.from($input.all()[0].json.content, 'base64').toString());\n  const n8nWorkflow = $input.all()[1].json;\n  \n  // Order JSON objects\n  const orderedOriginal = orderJsonKeys(origWorkflow);\n  const orderedActual = orderJsonKeys(n8nWorkflow);\n\n  // Determine difference\n  if (JSON.stringify(orderedOriginal) === JSON.stringify(orderedActual)) {\n    $input.all()[0].json.github_status = \"same\";\n  } else {\n    $input.all()[0].json.github_status = \"different\";\n    $input.all()[0].json.n8n_data_stringy = JSON.stringify(orderedActual, null, 2);\n  }\n  $input.all()[0].json.content_decoded = orderedOriginal;\n// No file returned / new workflow\n} else if (Object.keys($input.all()[0].json).includes(\"data\")) {\n  const origWorkflow = JSON.parse($input.all()[0].json.data);\n  const n8nWorkflow = $input.all()[1].json;\n  \n  // Order JSON objects\n  const orderedOriginal = orderJsonKeys(origWorkflow);\n  const orderedActual = orderJsonKeys(n8nWorkflow);\n\n  // Determine difference\n  if (JSON.stringify(orderedOriginal) === JSON.stringify(orderedActual)) {\n    $input.all()[0].json.github_status = \"same\";\n  } else {\n    $input.all()[0].json.github_status = \"different\";\n    $input.all()[0].json.n8n_data_stringy = JSON.stringify(orderedActual, null, 2);\n  }\n  $input.all()[0].json.content_decoded = orderedOriginal;\n\n} else {\n  // Order JSON object\n  const n8nWorkflow = $input.all()[1].json;\n  const orderedActual = orderJsonKeys(n8nWorkflow);\n  \n  // Proper formatting\n  $input.all()[0].json.github_status = \"new\";\n  $input.all()[0].json.n8n_data_stringy = JSON.stringify(orderedActual, null, 2);\n}\n\n// Return items\nreturn $input.all();"
       },
-      "id": "ee1ce713-714e-4aef-87d9-747bea75fc91",
+      "id": "d8afc4aa-a735-4de9-9e72-cc0449b4fcb2",
       "name": "isDiffOrNew",
       "type": "n8n-nodes-base.code",
       "position": [
-        2300,
+        2200,
         1540
       ],
       "typeVersion": 1
@@ -342,44 +342,44 @@
           ]
         }
       },
-      "id": "762d79fc-31a9-495a-b5f3-f4ea3050ec47",
+      "id": "785207b4-ef0c-40bc-9ebf-58a33228314d",
       "name": "Check Status",
       "type": "n8n-nodes-base.switch",
       "position": [
-        2520,
+        2420,
         1540
       ],
       "typeVersion": 1
     },
     {
       "parameters": {},
-      "id": "33c2349e-6675-451d-88ad-ae92cdaca7d1",
+      "id": "1378d4f2-5ba7-440a-8dea-e918e5f48b5a",
       "name": "Same file - Do nothing",
       "type": "n8n-nodes-base.noOp",
       "position": [
-        2740,
+        2640,
         1360
       ],
       "typeVersion": 1
     },
     {
       "parameters": {},
-      "id": "87a5eb3f-a8e3-42f2-8908-335ebb05b7b7",
+      "id": "b20332fc-a6c2-48cc-ab89-f879c526f090",
       "name": "File is different",
       "type": "n8n-nodes-base.noOp",
       "position": [
-        2740,
+        2640,
         1540
       ],
       "typeVersion": 1
     },
     {
       "parameters": {},
-      "id": "a5d68040-18b4-42e4-9daf-f5f1048199c8",
+      "id": "cb209dc4-73e0-45ce-8998-8db76831ab89",
       "name": "File is new",
       "type": "n8n-nodes-base.noOp",
       "position": [
-        2740,
+        2640,
         1720
       ],
       "typeVersion": 1
@@ -399,13 +399,13 @@
         },
         "filePath": "={{$node[\"Variables\"].json[\"repo\"][\"path\"]}}{{ $node[\"JSON formatting\"].json[\"name\"] }}.json",
         "fileContent": "={{ $json.n8n_data_stringy }}",
-        "commitMessage": "=[N8N Backup] {{$node[\"OneAtATime\"].json[\"name\"]}}.json ({{$json[\"github_status\"]}})"
+        "commitMessage": "=[N8N Backup] {{$node[\"OneAtATime\"].json[\"name\"]}}.json "
       },
-      "id": "0d69aadd-ae0f-47aa-8f66-652a1ebcfb29",
+      "id": "4fcc0428-b174-4a99-a55f-aa436cdc0a86",
       "name": "Create new file",
       "type": "n8n-nodes-base.github",
       "position": [
-        3000,
+        2900,
         1740
       ],
       "typeVersion": 1,
@@ -434,11 +434,11 @@
         "fileContent": "={{$('isDiffOrNew').item.json[\"n8n_data_stringy\"]}}",
         "commitMessage": "={{$('Execute Workflow Trigger').first().json.name}} ({{$json.github_status}})"
       },
-      "id": "bc064f4f-cb8e-45d6-94c2-a78c7091dea5",
+      "id": "73c84ac4-09d0-4c8e-9f7a-48188f62db72",
       "name": "Edit existing file",
       "type": "n8n-nodes-base.github",
       "position": [
-        3000,
+        2900,
         1558
       ],
       "typeVersion": 1,
@@ -460,11 +460,11 @@
           ]
         }
       },
-      "id": "79cb3547-942d-407a-bb9a-1567756c1661",
+      "id": "07111f0d-82ac-4c57-9a4a-e9d529f82799",
       "name": "Schedule Trigger",
       "type": "n8n-nodes-base.scheduleTrigger",
       "position": [
-        100,
+        340,
         1640
       ],
       "typeVersion": 1.2
@@ -487,12 +487,12 @@
         "asBinaryProperty": false,
         "additionalParameters": {}
       },
-      "id": "ad4e0d1c-7464-40de-b98c-51c292d6a1b9",
+      "id": "ed3dd526-de3a-40bb-9103-7ee44a5daf74",
       "name": "Get file data",
       "type": "n8n-nodes-base.github",
       "position": [
-        1360,
-        1280
+        1440,
+        1360
       ],
       "typeVersion": 1,
       "alwaysOutputData": true,
@@ -508,11 +508,11 @@
       "parameters": {
         "command": "npx n8n export:credentials --all --decrypted"
       },
-      "id": "7f1d5846-068a-452f-bf0f-8ff2e7a4cda8",
+      "id": "e62413ec-2913-4239-bb06-6fec89979722",
       "name": "Execute Command",
       "type": "n8n-nodes-base.executeCommand",
       "position": [
-        320,
+        740,
         1540
       ],
       "typeVersion": 1
@@ -521,25 +521,14 @@
       "parameters": {
         "jsCode": "// Function to beautify JSON\nfunction beautifyJson(jsonString) {\n  try {\n    // Parse the JSON string\n    const jsonObject = JSON.parse(jsonString);\n\n    // Format the JSON with indentation\n    return jsonObject; // Return the parsed object directly\n  } catch (error) {\n    // Return the error message if JSON is invalid\n    return `Invalid JSON: ${error.message}`;\n  }\n}\n\n// Retrieve the JSON object from the input data\nconst input = $input.all()[0].json;\n\n// Extract the JSON string from the stdout field\nconst jsonString = input.stdout.match(/\\[{.*}\\]/s);\n\n// Check if a valid JSON string is found\nif (!jsonString) {\n  return {\n    json: {\n      error: \"No valid JSON string found in stdout.\"\n    }\n  };\n}\n\n// Beautify the JSON\nconst beautifiedJson = beautifyJson(jsonString[0]);\n\n// Output the beautified JSON, ensuring each entry is in an object with a 'json' key\nconst output = beautifiedJson.map(entry => ({ json: entry }));\n\n// Return the output\nreturn output;\n"
       },
-      "id": "8ea57cbf-00df-48e9-b0c1-5321164062a5",
+      "id": "69aa7f98-694c-4d3a-b086-ba9700d518d9",
       "name": "JSON formatting",
       "type": "n8n-nodes-base.code",
       "position": [
-        500,
+        920,
         1540
       ],
       "typeVersion": 2
-    },
-    {
-      "parameters": {},
-      "id": "95a91851-9e06-4655-86d1-e95519b32ad4",
-      "name": "No Operation, do nothing",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        900,
-        1140
-      ]
     },
     {
       "parameters": {
@@ -567,12 +556,12 @@
         },
         "options": {}
       },
-      "id": "addd6c10-aed8-404b-8954-5aa4d7b24529",
+      "id": "d2ab7b47-8a98-4a6d-bcb4-590df9e4bd6e",
       "name": "Variables",
       "type": "n8n-nodes-base.set",
       "position": [
-        1120,
-        1360
+        560,
+        1540
       ],
       "typeVersion": 3.4
     },
@@ -580,14 +569,25 @@
       "parameters": {
         "options": {}
       },
-      "id": "58e26600-3fec-4d27-acff-463320a2edc7",
+      "id": "7583a357-4dd7-4fe5-97e9-7143967aa7e1",
       "name": "OneAtATime",
       "type": "n8n-nodes-base.splitInBatches",
       "position": [
-        700,
+        1120,
         1540
       ],
       "typeVersion": 3
+    },
+    {
+      "parameters": {},
+      "id": "5b1d928b-6503-4c85-96fe-014218663a9a",
+      "name": "Fin",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        980
+      ]
     }
   ],
   "pinData": {},
@@ -597,6 +597,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-01-08T00:31:44.000Z",
-  "versionId": "c45c8e6c-a1b5-499b-9827-17781b2e6ec1"
+  "updatedAt": "2025-01-08T01:05:19.000Z",
+  "versionId": "d1d07aff-4344-401f-beaf-09eed9549322"
 }
