@@ -85,7 +85,7 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "OneAtATime",
             "type": "main",
             "index": 0
           }
@@ -107,32 +107,9 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "OneAtATime",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "Loop Over Items": {
-      "main": [
-        [
-          {
-            "node": "No Operation, do nothing",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Variables",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Merge Items",
-            "type": "main",
-            "index": 1
           }
         ]
       ]
@@ -181,7 +158,7 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "OneAtATime",
             "type": "main",
             "index": 0
           }
@@ -203,7 +180,7 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "OneAtATime",
             "type": "main",
             "index": 0
           }
@@ -217,6 +194,29 @@
             "node": "Get file data",
             "type": "main",
             "index": 0
+          }
+        ]
+      ]
+    },
+    "OneAtATime": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Variables",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge Items",
+            "type": "main",
+            "index": 1
           }
         ]
       ]
@@ -399,7 +399,7 @@
         },
         "filePath": "={{$node[\"Variables\"].json[\"repo\"][\"path\"]}}{{ $node[\"JSON formatting\"].json[\"name\"] }}.json",
         "fileContent": "={{ $json.n8n_data_stringy }}",
-        "commitMessage": "=({{$json.github_status}})"
+        "commitMessage": "=[N8N Backup] {{$node[\"OneAtATime\"].json[\"name\"]}}.json ({{$json[\"github_status\"]}})"
       },
       "id": "0d69aadd-ae0f-47aa-8f66-652a1ebcfb29",
       "name": "Create new file",
@@ -448,19 +448,6 @@
           "name": "Credenciales_GitHub"
         }
       }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "58e26600-3fec-4d27-acff-463320a2edc7",
-      "name": "Loop Over Items",
-      "type": "n8n-nodes-base.splitInBatches",
-      "position": [
-        700,
-        1540
-      ],
-      "typeVersion": 3
     },
     {
       "parameters": {
@@ -588,6 +575,19 @@
         1360
       ],
       "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "58e26600-3fec-4d27-acff-463320a2edc7",
+      "name": "OneAtATime",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [
+        700,
+        1540
+      ],
+      "typeVersion": 3
     }
   ],
   "pinData": {},
@@ -597,6 +597,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-01-08T00:13:08.000Z",
-  "versionId": "8a50bbaf-2e6b-4dd0-a1ed-e22573f2329d"
+  "updatedAt": "2025-01-08T00:31:44.000Z",
+  "versionId": "c45c8e6c-a1b5-499b-9827-17781b2e6ec1"
 }
